@@ -1,4 +1,7 @@
-﻿using System;
+﻿
+
+
+using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
@@ -34,7 +37,7 @@ namespace Lab_6
                 }
             }
 
-            public Participant (string aname, string asurname)
+            public Participant(string aname, string asurname)
             {
                 name = aname;
                 surname = asurname;
@@ -62,15 +65,11 @@ namespace Lab_6
                                 (participants[j], participants[j + 1]) = (participants[j + 1], participants[j]);
                         }
                     }
-                    int place = 1;
                     for (int i = 0; i < participants.Length; i++)
                     {
-                        if (i > 0 && Math.Abs(participants[i].Marks[k] - participants[i - 1].Marks[k]) > 0.001)
-                        {
-                            place = i + 1;
-                        }
-                        participants[i].places[k] = place;
+                        participants[i].places[k] = i+1;
                     }
+                    
                 }
             }
             public static void Sort(Participant[] array)
@@ -87,20 +86,20 @@ namespace Lab_6
                             double s = 0, f = 0;
                             for (int k = 0; k < 7; k++)
                             {
-                                if (array[j].Places[k] > array[j].Places[k + 1])
+                                if (array[j].Places[k] < array[j+1].Places[k])
                                 {
                                     s = -1;
                                     (array[j], array[j + 1]) = (array[j + 1], array[j]);
                                     break;
                                 }
-                                else if (array[j].Places[k] < array[j].Places[k + 1])
+                                else if (array[j].Places[k] > array[j+1].Places[k])
                                 {
                                     s = -1;
                                     break;
                                 }
                                 if (s == -1) break;
                                 s += array[j].Places[k];
-                                f += array[j].Places[k + 1];
+                                f += array[j+1].Places[k];
                             }
                             if (s != -1 && s > f)
                                 (array[j], array[j + 1]) = (array[j + 1], array[j]);
@@ -110,7 +109,9 @@ namespace Lab_6
             }
             public static void Print(Participant s)
             {
-
+                Console.WriteLine($"Name: {s.Name}, Surname: {s.Surname}, Score: {s.Score}");
+                Console.WriteLine("Marks: " + string.Join(", ", s.Marks));
+                Console.WriteLine("Places: " + string.Join(", ", s.Places));
             }
         }
     }

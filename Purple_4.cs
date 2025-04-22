@@ -24,12 +24,12 @@ namespace Lab_6
             {
                 name = aname;
                 surname = asurname;
-                time = -1;
+                time = 0;
             }
 
             public void Run(double t)
             {
-                if (time != -1) return;
+                if (time != 0) return;
                 time = t;
             }
         }
@@ -116,17 +116,35 @@ namespace Lab_6
             public static Group Merge(Group group1, Group group2)
             {
                 var fin = new Group("Финалисты");
-                fin.Add(group1);
-                fin.Add(group2);
+                var a = group1.sportsmen;
+                var b = group2.sportsmen;
+                fin.sportsmen = new Sportsman[a.Length + b.Length];
+                int i = 0, j = 0, k = 0;
+                while (i < a.Length && j < b.Length)
+                {
+                    if (a[i].Time <= b[j].Time)
+                    {
+                        fin.sportsmen[k++] = a[i++];
+                    }
+                    else fin.sportsmen[k++] = b[j++];
+                }
+                while (i < a.Length) fin.sportsmen[k++] = a[i++];
+                while (j < b.Length) fin.sportsmen[k++] = b[j++];
 
-                fin.Sort();
+                //fin.Add(group1);
+                //fin.Add(group2);
+                //fin.Sort();
 
                 return fin;
             }
 
             public void Print()
             {
-
+                Console.WriteLine($"Group: {Name}");
+                foreach (var sportsman in sportsmen)
+                {
+                    Console.WriteLine(sportsman.Name + " " + sportsman.Surname + " " + sportsman.Time);
+                }
             }
         }
     }
