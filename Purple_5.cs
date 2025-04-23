@@ -43,10 +43,15 @@ namespace Lab_6
                 questionNumber--;
                 foreach (var r in responses)
                 {
-                    if (r.All[questionNumber] == All[questionNumber])
+                    if (r.All[questionNumber] != "")
                         n++;
                 }
                 return n;
+            }
+
+            public void Print()
+            {
+                Console.WriteLine(animal + " " + charactertrait + " " + concept);
             }
         }
 

@@ -15,6 +15,7 @@ namespace Lab_6
             private string name;
             private string surname;
             private double time;
+            private bool flag;
 
             public string Name => name;
             public string Surname => surname;
@@ -29,8 +30,9 @@ namespace Lab_6
 
             public void Run(double t)
             {
-                if (time != 0) return;
+                if (flag) return;
                 time = t;
+                flag = true;
             }
         }
 
@@ -122,7 +124,7 @@ namespace Lab_6
                 int i = 0, j = 0, k = 0;
                 while (i < a.Length && j < b.Length)
                 {
-                    if (a[i].Time <= b[j].Time)
+                    if (a[i].Time < b[j].Time)
                     {
                         fin.sportsmen[k++] = a[i++];
                     }

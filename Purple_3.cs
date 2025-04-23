@@ -23,8 +23,26 @@ namespace Lab_6
 
             public string Name => name;
             public string Surname => surname;
-            public int[] Places => places;
-            public double[] Marks => marks;
+            public int[] Places
+            {
+                get
+                {
+                    if (places == null) return default(int[]);
+                    int[] arr = new int[places.Length];
+                    Array.Copy(places, arr, places.Length);
+                    return arr;
+                }
+            }
+            public double[] Marks
+            {
+                get
+                {
+                    if (marks == null) return default(double[]);
+                    double[] arr = new double[marks.Length];
+                    Array.Copy(marks, arr, marks.Length);
+                    return arr;
+                }
+            }
             public int Score
             {
                 get
@@ -75,37 +93,35 @@ namespace Lab_6
             public static void Sort(Participant[] array)
             {
                 if (array == null || array.Length == 0) return;
-                for (int i = 0; i < array.Length; i++)
+                Array.Sort(array, (f, s) =>
                 {
-                    for (int j = 0; j < array.Length - 1 - i; j++)
+                    if (f.Score == s.Score)
                     {
-                        if (array[j].Score > array[j + 1].Score)
-                            (array[j], array[j + 1]) = (array[j + 1], array[j]);
-                        if (array[j].Score == array[j + 1].Score)
+                        int m = 0, n = 0;
+                        for (int i = 0; i < 7; i++)
                         {
-                            double s = 0, f = 0;
-                            for (int k = 0; k < 7; k++)
+                            if (f.Places[i] < f.Places[m]) m = i;
+                            if (s.Places[i] < s.Places[n]) n = i;
+                        }
+                        if (f.Places[m] < s.Places[n]) return -1;  
+                        if (f.Places[m] > s.Places[n]) return 1;   
+                        if (f.Places[m] == s.Places[n])
+                        {
+                            double a = 0, b = 0;
+                            for (int i = 0; i < 7; i++)
                             {
-                                if (array[j].Places[k] < array[j+1].Places[k])
-                                {
-                                    s = -1;
-                                    (array[j], array[j + 1]) = (array[j + 1], array[j]);
-                                    break;
-                                }
-                                else if (array[j].Places[k] > array[j+1].Places[k])
-                                {
-                                    s = -1;
-                                    break;
-                                }
-                                if (s == -1) break;
-                                s += array[j].Places[k];
-                                f += array[j+1].Places[k];
+                                a += f.Marks[i];
+                                b += s.Marks[i];
                             }
-                            if (s != -1 && s > f)
-                                (array[j], array[j + 1]) = (array[j + 1], array[j]);
+                            if (a > b) return -1; 
+                            if (a < b) return 1;  
+                            return 0;
                         }
                     }
-                }
+                    if (f.Score < s.Score) return -1;  
+                    if (f.Score > s.Score) return 1;  
+                    return 0;                         
+                });
             }
             public static void Print(Participant s)
             {
