@@ -105,14 +105,13 @@ namespace Lab_6
             public void Sort()
             {
                 if (sportsmen == null) return;
-                for (int i = 0; i < sportsmen.Length; i++)
+                Array.Sort(sportsmen, (f, s) =>
                 {
-                    for (int j = 0; j < sportsmen.Length - 1 - i; j++)
-                    {
-                        if (sportsmen[j].Time > sportsmen[j + 1].Time)
-                            (sportsmen[j], sportsmen[j + 1]) = (sportsmen[j + 1], sportsmen[j]);
-                    }
-                }
+                    double d = f.Time - s.Time;
+                    if (d < 0) return -1;
+                    else if (d > 0) return 1;
+                    else return 0;
+                });
             }
 
             public static Group Merge(Group group1, Group group2)
@@ -124,7 +123,7 @@ namespace Lab_6
                 int i = 0, j = 0, k = 0;
                 while (i < a.Length && j < b.Length)
                 {
-                    if (a[i].Time < b[j].Time)
+                    if (a[i].Time <= b[j].Time)
                     {
                         fin.sportsmen[k++] = a[i++];
                     }

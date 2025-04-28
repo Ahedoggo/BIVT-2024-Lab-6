@@ -38,7 +38,7 @@ namespace Lab_6
 
             public int CountVotes(Response[] responses, int questionNumber)
             {
-                if (responses == null || questionNumber < 1 || questionNumber > 3) return 0;
+                if (responses == null) return 0;
                 int n = 0;
                 questionNumber--;
                 foreach (var r in responses)
